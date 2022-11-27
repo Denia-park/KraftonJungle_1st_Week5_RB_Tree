@@ -15,8 +15,50 @@ void delete_rbtree(rbtree* t) {
     free(t);
 }
 
+node_t* makeNewNode(const key_t key) {
+    node_t* p_newNode = (node_t*) calloc(1, sizeof(node_t));
+    p_newNode->key = key;
+    p_newNode->color = RBTREE_RED;
+    p_newNode->left = NULL;
+    p_newNode->right = NULL;
+    p_newNode->parent = NULL;
+
+    return p_newNode;
+}
+
 node_t* rbtree_insert(rbtree* t, const key_t key) {
-    // TODO: implement insert
+    node_t* parent = NULL;
+    node_t* curNode = t->root;
+
+    while (curNode != NULL) {
+        parent = curNode;
+
+        if (key < curNode->key) {
+            curNode = curNode->left;
+        }
+        else {
+            curNode = curNode->right;
+        }
+    }
+
+    node_t* p_newNode = makeNewNode(key);
+    p_newNode->parent = parent;
+
+    if (parent == NULL) {
+        t->root = p_newNode;
+    }
+    else {
+        if (key < parent->key) {
+            parent->left = p_newNode;
+        }
+        else {
+            parent->right = p_newNode;
+        }
+    }
+
+    // TODO : Make FIXUP Function
+    // tree_insert_fixup(tree, ptr)
+
     return t->root;
 }
 
