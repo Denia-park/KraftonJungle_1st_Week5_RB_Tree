@@ -1,6 +1,7 @@
 #include "rbtree.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 rbtree* new_rbtree(void) {
     rbtree* p = (rbtree*) calloc(1, sizeof(rbtree));
@@ -85,4 +86,18 @@ int rbtree_erase(rbtree* t, node_t* p) {
 int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n) {
     // TODO: implement to_array
     return 0;
+}
+
+void print_node_inorder(node_t* curNode) {
+    if (curNode == NULL) {
+        return;
+    }
+
+    print_node_inorder(curNode->left);
+    printf("%d ", curNode->key);
+    print_node_inorder(curNode->right);
+}
+
+void print_tree_inorder(rbtree* t) {
+    print_node_inorder(t->root);
 }
