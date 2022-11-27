@@ -14,5 +14,6 @@ int main(int argc, char* argv[]) {
 
     print_tree_inorder(p_rbt);
 
+    printf("\n");
     printf("Test Complete\n");
 }
