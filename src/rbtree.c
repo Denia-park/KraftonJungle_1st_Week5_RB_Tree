@@ -31,8 +31,8 @@ node_t* makeNewNode(const key_t key) {
     node_t* p_newNode = (node_t*) calloc(1, sizeof(node_t));
     p_newNode->key = key;
     p_newNode->color = RBTREE_RED;
-    p_newNode->left = NULL;
-    p_newNode->right = NULL;
+    p_newNode->left = makeNilNode(p_newNode);
+    p_newNode->right = makeNilNode(p_newNode);
     p_newNode->parent = NULL;
 
     return p_newNode;
@@ -105,7 +105,9 @@ void print_node_inorder(node_t* curNode) {
     }
 
     print_node_inorder(curNode->left);
-    printf("%d ", curNode->key);
+    if (curNode->key != NULL) {
+        printf("%d ", curNode->key);
+    }
     print_node_inorder(curNode->right);
 }
 
