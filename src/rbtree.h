@@ -32,6 +32,9 @@ int rbtree_to_array(const rbtree*, key_t*, const size_t);
 void print_node_inorder(node_t* curNode);
 void print_tree_inorder(rbtree* t);
 
+node_t* makeNilNode(node_t* p_parent);
+node_t* makeNewNode(const key_t key);
+
 #define RED 0
 #define BLACK 1
 
