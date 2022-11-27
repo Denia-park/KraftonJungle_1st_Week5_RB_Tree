@@ -16,6 +16,17 @@ void delete_rbtree(rbtree* t) {
     free(t);
 }
 
+node_t* makeNilNode(node_t* p_parent) {
+    node_t* p_newNilNode = (node_t*) calloc(1, sizeof(node_t));
+    p_newNilNode->key = NULL;
+    p_newNilNode->color = RBTREE_BLACK;
+    p_newNilNode->left = NULL;
+    p_newNilNode->right = NULL;
+    p_newNilNode->parent = p_parent;
+
+    return p_newNilNode;
+}
+
 node_t* makeNewNode(const key_t key) {
     node_t* p_newNode = (node_t*) calloc(1, sizeof(node_t));
     p_newNode->key = key;
