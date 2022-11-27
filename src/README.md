@@ -4,6 +4,8 @@
 
 ### 구현 완료
 -  new_tree(): RB tree 구조체 생성
+-  print_tree_inorder(tree) : tree 내부에서 현재 노드값이 어떻게 배열되어 있는지 중위순회로 print 한다.
+-  print_node_inorder(ptr) : print_tree_inorder 내부에서 사용되는 메서드이며 노드의 ptr을 받아서 중위순회로 탐색하고 node의 값을 출력한다.
 ---
 ### 구현 필요
 -  tree_insert(tree, key) : key 추가
