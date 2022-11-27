@@ -106,7 +106,7 @@ void print_node_inorder(node_t* curNode) {
 
     print_node_inorder(curNode->left);
     if (curNode->key != NULL) {
-        printf("%d ", curNode->key);
+        printf("%d %c // ", curNode->key, curNode->color == RED ? 'R' : 'B');
     }
     print_node_inorder(curNode->right);
 }
