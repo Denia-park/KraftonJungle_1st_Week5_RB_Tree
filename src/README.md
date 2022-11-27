@@ -13,3 +13,5 @@
 -  tree_erase(tree, ptr): RB tree 내부의 ptr로 지정된 node를 삭제하고 메모리 반환
 -  delete_tree(tree): RB tree 구조체가 차지했던 메모리 반환
 -  tree_to_array(tree, array, n) : RB tree의 내용을 key 순서대로 주어진 array로 변환
+-  left_rotate(tree, ptr): tree 내부에서 노드의 ptr 를 기준으로 왼쪽 회전
+-  right_rotate(tree, ptr): tree 내부에서 노드의 ptr 를 기준으로 오른쪽 회전
