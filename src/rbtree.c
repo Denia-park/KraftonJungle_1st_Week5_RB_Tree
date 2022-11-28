@@ -74,7 +74,7 @@ node_t* rbtree_min(const rbtree* t) {
     return searchNode;
 }
 
-node_t* find_min_in_subtree(const node_t* p_nil, node_t* subTreeRootNode) {
+node_t* find_min_in_subtree(node_t* p_nil, node_t* subTreeRootNode) {
     if (subTreeRootNode == p_nil) {
         return p_nil;
     }
@@ -96,7 +96,7 @@ node_t* rbtree_max(const rbtree* t) {
     return searchNode;
 }
 
-node_t* find_max_in_subtree(const node_t* p_nil, node_t* subTreeRootNode) {
+node_t* find_max_in_subtree(node_t* p_nil, node_t* subTreeRootNode) {
     if (subTreeRootNode == p_nil) {
         return p_nil;
     }
@@ -110,7 +110,7 @@ node_t* find_max_in_subtree(const node_t* p_nil, node_t* subTreeRootNode) {
 
 node_t* makeNilNode() {
     node_t* p_newNilNode = (node_t*) calloc(1, sizeof(node_t));
-    p_newNilNode->key = NULL;
+    p_newNilNode->key = 0;
     p_newNilNode->color = RBTREE_BLACK;
     p_newNilNode->left = NULL;
     p_newNilNode->right = NULL;
