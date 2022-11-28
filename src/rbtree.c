@@ -6,7 +6,8 @@
 rbtree* new_rbtree(void) {
     rbtree* p = (rbtree*) calloc(1, sizeof(rbtree));
 
-    p->root = NULL;
+    p->nil = makeNilNode();
+    p->root = p->nil;
 
     return p;
 }
@@ -17,10 +18,10 @@ void delete_rbtree(rbtree* t) {
 }
 
 node_t* rbtree_insert(rbtree* t, const key_t key) {
-    node_t* searchNodeParent = NULL;
+    node_t* searchNodeParent = t->nil;
     node_t* searchNode = t->root;
 
-    while (searchNode != NULL && searchNode->key != NULL) {
+    while (searchNode != t->nil) {
         searchNodeParent = searchNode;
 
         if (key < searchNode->key) {
@@ -31,10 +32,10 @@ node_t* rbtree_insert(rbtree* t, const key_t key) {
         }
     }
 
-    node_t* p_newInsertNode = makeNewNode(key);
+    node_t* p_newInsertNode = makeNewNode(t, key);
     p_newInsertNode->parent = searchNodeParent;
 
-    if (searchNodeParent == NULL) {
+    if (searchNodeParent == t->nil) {
         t->root = p_newInsertNode;
     }
     else {
@@ -94,23 +95,23 @@ int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n) {
     return 0;
 }
 
-node_t* makeNilNode(node_t* p_parent) {
+node_t* makeNilNode() {
     node_t* p_newNilNode = (node_t*) calloc(1, sizeof(node_t));
     p_newNilNode->key = NULL;
     p_newNilNode->color = RBTREE_BLACK;
     p_newNilNode->left = NULL;
     p_newNilNode->right = NULL;
-    p_newNilNode->parent = p_parent;
+    p_newNilNode->parent = NULL;
 
     return p_newNilNode;
 }
 
-node_t* makeNewNode(const key_t key) {
+node_t* makeNewNode(rbtree* t, const key_t key) {
     node_t* p_newNode = (node_t*) calloc(1, sizeof(node_t));
     p_newNode->key = key;
     p_newNode->color = RBTREE_RED;
-    p_newNode->left = makeNilNode(p_newNode);
-    p_newNode->right = makeNilNode(p_newNode);
+    p_newNode->left = t->nil;
+    p_newNode->right = t->nil;
     p_newNode->parent = NULL;
 
     return p_newNode;
@@ -135,7 +136,7 @@ void print_tree_inorder(rbtree* t) {
 }
 
 void tree_insert_fixup(rbtree* t, node_t* targetNode) {
-    while (targetNode->parent != NULL && targetNode->parent->color == RBTREE_RED) {
+    while (targetNode->parent->color == RBTREE_RED) {
         if (targetNode->parent->parent->left == targetNode->parent) {
             targetNode = fixupLeftCase(t, targetNode);
         }
@@ -239,7 +240,7 @@ void left_rotate(rbtree* t, node_t* targetNode) {
     toRootNode->left->parent = targetNode;
     toRootNode->parent = targetNode->parent;
 
-    if (targetNode->parent == NULL) {
+    if (targetNode->parent == t->nil) {
         t->root = toRootNode;
     }
     else if (targetNode->parent->left == targetNode) {
@@ -260,7 +261,7 @@ void right_rotate(rbtree* t, node_t* targetNode) {
     toRootNode->right->parent = targetNode;
     toRootNode->parent = targetNode->parent;
 
-    if (targetNode->parent == NULL) {
+    if (targetNode->parent == t->nil) {
         t->root = toRootNode;
     }
     else if (targetNode->parent->right == targetNode) {

@@ -20,8 +20,8 @@ node_t* fixupRightCase_1(node_t* targetNode, node_t* uncle);
 node_t* fixupRightCase_2(rbtree* t, node_t* targetNode);
 node_t* fixupRightCase_3(rbtree* t, node_t* targetNode);
 
-node_t* makeNilNode(node_t* p_parent);
-node_t* makeNewNode(const key_t key);
+node_t* makeNilNode();
+node_t* makeNewNode(rbtree* t, const key_t key);
 
 void left_rotate(rbtree* t, node_t* targetNode);
 void right_rotate(rbtree* t, node_t* targetNode);

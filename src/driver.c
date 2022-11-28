@@ -12,6 +12,8 @@ int main(int argc, char* argv[]) {
 
     rbtree* p_rbt = new_rbtree();
     assert(p_rbt != NULL);
+    assert(p_rbt->nil != NULL);
+    assert(p_rbt->root == p_rbt->nil);
 
     rbtree_insert(p_rbt, 20);
     rbtree_insert(p_rbt, 10);
