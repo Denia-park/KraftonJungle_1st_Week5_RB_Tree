@@ -73,14 +73,14 @@ node_t* rbtree_find(const rbtree* t, const key_t key) {
 }
 
 node_t* rbtree_min(const rbtree* t) {
-    node_t* searchNode = t->root;
+    node_t* searchNode = find_min_in_subtree(t->nil, t->root);
 
     if (searchNode == t->nil) {
         return t->nil;
     }
 
-    while (searchNode->left != t->nil) {
-        searchNode = searchNode->left;
+    return searchNode;
+}
 
 node_t* find_min_in_subtree(const node_t* p_nil, node_t* subTreeRootNode) {
     if (subTreeRootNode == p_nil) {
@@ -95,14 +95,14 @@ node_t* find_min_in_subtree(const node_t* p_nil, node_t* subTreeRootNode) {
 }
 
 node_t* rbtree_max(const rbtree* t) {
-    node_t* searchNode = t->root;
+    node_t* searchNode = find_max_in_subtree(t->nil, t->root);
 
     if (searchNode == t->nil) {
         return t->nil;
     }
 
-    while (searchNode->right != t->nil) {
-        searchNode = searchNode->right;
+    return searchNode;
+}
 
 node_t* find_max_in_subtree(const node_t* p_nil, node_t* subTreeRootNode) {
     if (subTreeRootNode == p_nil) {
