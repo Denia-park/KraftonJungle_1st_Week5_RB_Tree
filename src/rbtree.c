@@ -52,8 +52,18 @@ node_t* rbtree_insert(rbtree* t, const key_t key) {
 }
 
 node_t* rbtree_find(const rbtree* t, const key_t key) {
-    // TODO: implement find
-    return t->root;
+    node_t* searchNode = t->root;
+
+    while (searchNode != NULL && searchNode->key != key) {
+        if (key < searchNode->key) {
+            searchNode = searchNode->left;
+        }
+        else {
+            searchNode = searchNode->right;
+        }
+    }
+
+    return searchNode;
 }
 
 node_t* rbtree_min(const rbtree* t) {
@@ -113,6 +123,7 @@ void print_node_inorder(node_t* curNode) {
 void print_tree_inorder(rbtree* t) {
     printf("RootValue : %d \n", t->root->key);
     print_node_inorder(t->root);
+    printf("\n");
 }
 
 void tree_insert_fixup(rbtree* t, node_t* targetNode) {
