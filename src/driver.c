@@ -2,43 +2,24 @@
 #include <assert.h>
 #include <stdio.h>
 
-int main(int argc, char* argv[]) {
-    const int MAX_VALUE = 10000;
-    const int MIN_VALUE = -9999;
+const int MAX_VALUE = 10000;
+const int MIN_VALUE = -9999;
 
+int main(int argc, char* argv[]) {
     printf("\n");
     printf("Test Start \n");
     printf("\n");
 
-    rbtree* p_rbt = new_rbtree();
-    assert(p_rbt != NULL);
-    assert(p_rbt->nil != NULL);
-    assert(p_rbt->root == p_rbt->nil);
+    rbtree* p_rbt = testMakeRbTree();
 
-    rbtree_insert(p_rbt, 20);
-    rbtree_insert(p_rbt, 10);
-    rbtree_insert(p_rbt, 50);
-    rbtree_insert(p_rbt, 30);
-    rbtree_insert(p_rbt, 80);
-    rbtree_insert(p_rbt, 40);
-    rbtree_insert(p_rbt, 35);
-    rbtree_insert(p_rbt, 25);
-    rbtree_insert(p_rbt, MAX_VALUE);
-    rbtree_insert(p_rbt, MIN_VALUE);
+    testMaxValueInEmptyRbTree(p_rbt);
+    testMinValueInEmptyRbTree(p_rbt);
 
-    print_tree_inorder(p_rbt);
+    testInsertValueToRbTree(p_rbt);
 
-    printf("\n");
-    printf("Find value Test\n");
+    testFindValueInRbTree(p_rbt);
 
-    findTest(p_rbt, 20);
-    findTest(p_rbt, 15);
-
-    printf("\n");
-    printf("Find max , value Test\n");
-
-    find_max_test(p_rbt, MAX_VALUE);
-    find_min_test(p_rbt, MIN_VALUE);
+    testFindMaxMinValueInRbTree(p_rbt);
 
     printf("\n");
     printf("Test Complete\n");
@@ -68,4 +49,74 @@ void find_min_test(rbtree* t, const int MIN_VALUE) {
     assert(searchNode->key == MIN_VALUE);
 
     printf("MIN_VALUE Found : %d \n", MIN_VALUE);
+}
+
+
+rbtree* testMakeRbTree() {
+    printf("\n");
+    printf("Make RBtree Test\n");
+
+    rbtree* p_rbt = new_rbtree();
+    assert(p_rbt != NULL);
+    assert(p_rbt->nil != NULL);
+    assert(p_rbt->root == p_rbt->nil);
+
+    printf("OK\n");
+
+    return p_rbt;
+}
+
+void testMaxValueInEmptyRbTree(rbtree* t) {
+    printf("\n");
+    printf("find Max Value in Empty RBtree Test\n");
+
+    // 아무값도 들어가있지 않은 경우에 테스트
+    assert(rbtree_max(t) == t->nil);
+
+    printf("OK\n");
+}
+
+void testMinValueInEmptyRbTree(rbtree* t) {
+    printf("\n");
+    printf("find Min Value in Empty RBtree Test\n");
+
+    // 아무값도 들어가있지 않은 경우에 테스트
+    assert(rbtree_min(t) == t->nil);
+
+    printf("OK\n");
+}
+
+void testInsertValueToRbTree(rbtree* t) {
+    printf("\n");
+    printf("RBtree_insert Test\n");
+    rbtree_insert(t, 20);
+    rbtree_insert(t, 10);
+    rbtree_insert(t, 50);
+    rbtree_insert(t, 30);
+    rbtree_insert(t, 80);
+    rbtree_insert(t, 40);
+    rbtree_insert(t, 35);
+    rbtree_insert(t, 25);
+    rbtree_insert(t, MAX_VALUE);
+    rbtree_insert(t, MIN_VALUE);
+
+    print_tree_inorder(t);
+    printf("OK\n");
+}
+
+void testFindValueInRbTree(rbtree* t) {
+    printf("\n");
+    printf("Find value Test\n");
+
+    findTest(t, 20);
+    findTest(t, 15);
+    findTest(t, 0);
+}
+
+void testFindMaxMinValueInRbTree(rbtree* t) {
+    printf("\n");
+    printf("Find max/min value Test\n");
+
+    find_max_test(t, MAX_VALUE);
+    find_min_test(t, MIN_VALUE);
 }

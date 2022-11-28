@@ -33,6 +33,13 @@ int isNilNode(const node_t* node);
 
 int isNilNode(const node_t* node);
 
+rbtree* testMakeRbTree();
+void testMaxValueInEmptyRbTree(rbtree* t);
+void testMinValueInEmptyRbTree(rbtree* t);
+void testInsertValueToRbTree(rbtree* t);
+void testFindValueInRbTree(rbtree* t);
+void testFindMaxMinValueInRbTree(rbtree* t);
+
 #define RED 0
 #define BLACK 1
 
