@@ -1,10 +1,6 @@
-#include "rbtree.h"
+#include "myHeader.h"
 #include <assert.h>
 #include <stdio.h>
-
-void findTest(rbtree* t, int testValue);
-void find_max_test(rbtree* t, int testValue);
-void find_min_test(rbtree* t, int testValue);
 
 int main(int argc, char* argv[]) {
     const int MAX_VALUE = 10000;
