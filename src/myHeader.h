@@ -38,6 +38,8 @@ void rbtree_delete_fixup(rbtree* t, node_t* childNode);
 node_t* delete_fixupLeftCase(rbtree* t, node_t* targetNode);
 node_t* delete_fixupRightCase(rbtree* t, node_t* targetNode);
 
+int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n);
+
 rbtree* testMakeRbTree();
 void testMaxValueInEmptyRbTree(rbtree* t);
 void testMinValueInEmptyRbTree(rbtree* t);
@@ -45,6 +47,7 @@ void testInsertValueToRbTree(rbtree* t);
 void testFindValueInRbTree(rbtree* t);
 void testFindMaxMinValueInRbTree(rbtree* t);
 void testDeleteValueInRbTree(rbtree* t);
+void testRbTreeToArr(rbtree* t);
 
 #define RED 0
 #define BLACK 1

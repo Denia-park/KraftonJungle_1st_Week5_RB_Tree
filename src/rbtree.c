@@ -3,6 +3,8 @@
 
 #include "myHeader.h"
 
+int arrCounter = 0;
+
 rbtree* new_rbtree(void) {
     rbtree* p = (rbtree*) calloc(1, sizeof(rbtree));
 
@@ -430,9 +432,25 @@ node_t* delete_fixupRightCase_1(rbtree* t, node_t* targetNode, node_t* sibling) 
 
 }
 
+void searchValueByInorder(const rbtree* t, const node_t* curNode, key_t* arr, const size_t n) {
+    if (curNode == t->nil) {
+        return -1;
+    }
+
+    if (arrCounter == n) {
+        return SUCCESS;
+    }
+
+    searchValueByInorder(t, curNode->left, arr, n);
+    arr[arrCounter++] = curNode->key;
+    searchValueByInorder(t, curNode->right, arr, n);
+}
+
 int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n) {
-    // TODO: implement to_array
-    return 0;
+    arrCounter = 0;
+
+    searchValueByInorder(t, t->root, arr, n);
+    return SUCCESS;
 }
 
 void delete_rbtree(rbtree* t) {

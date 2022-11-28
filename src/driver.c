@@ -24,6 +24,9 @@ int main(int argc, char* argv[]) {
     rbtree* p_rbt_delete = testMakeRbTree();
     testDeleteValueInRbTree(p_rbt_delete);
 
+    rbtree* p_rbt_arrTest = testMakeRbTree();
+    testRbTreeToArr(p_rbt_arrTest);
+
     printf("\n");
     printf("Test Complete\n");
 }
@@ -149,8 +152,6 @@ void testDeleteValueInRbTree(rbtree* t) {
     rbtree_delete_node(t, 27);
     print_tree_inorder(t);
 
-    // rbtree_delete_node(t, 10);
-
     printf("OK\n");
 }
 
@@ -169,4 +170,31 @@ void testFindMaxMinValueInRbTree(rbtree* t) {
 
     find_max_test(t, MAX_VALUE);
     find_min_test(t, MIN_VALUE);
+}
+
+void testRbTreeToArr(rbtree* t) {
+    printf("\n");
+    printf("RbTreeToArr Test\n");
+
+    rbtree_insert(t, 35);
+    rbtree_insert(t, 20);
+    rbtree_insert(t, 50);
+    rbtree_insert(t, 10);
+    rbtree_insert(t, 30);
+    rbtree_insert(t, 40);
+    rbtree_insert(t, 80);
+    rbtree_insert(t, 5);
+    print_tree_inorder(t);
+
+    int arrSize = 8;
+
+    key_t* p_arr = (key_t*) calloc(arrSize, sizeof(key_t));
+
+    rbtree_to_array(t, p_arr, arrSize);
+
+    for (int i = 0; i < arrSize; i++) {
+        printf("%d ", p_arr[i]);
+    }
+
+    printf("\n");
 }
