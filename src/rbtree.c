@@ -353,8 +353,6 @@ int rbtree_erase(rbtree* t, node_t* targetNode) {
 }
 
 void rbtree_delete_fixup(rbtree* t, node_t* targetNode) {
-    node_t* ptr_save = NULL;
-
     while (targetNode != t->root && targetNode->color == RBTREE_BLACK) {
         if (targetNode == targetNode->parent->left) {
             targetNode = delete_fixupLeftCase(t, targetNode);
@@ -437,11 +435,11 @@ node_t* delete_fixupRightCase_1(rbtree* t, node_t* targetNode, node_t* sibling) 
 
 void searchValueByInorder(const rbtree* t, const node_t* curNode, key_t* arr, const size_t n) {
     if (curNode == t->nil) {
-        return -1;
+        return;
     }
 
     if (arrCounter == n) {
-        return SUCCESS;
+        return;
     }
 
     searchValueByInorder(t, curNode->left, arr, n);
