@@ -116,9 +116,44 @@ node_t* find_max_in_subtree(const node_t* p_nil, node_t* subTreeRootNode) {
     return subTreeRootNode;
 }
 
-int rbtree_erase(rbtree* t, node_t* p) {
-    // TODO: implement erase
-    return 0;
+int rbtree_erase(rbtree* t, node_t* targetNode) {
+    node_t* realDeleteNode = NULL;
+    node_t* childNode = NULL;
+
+    if (targetNode->left == t->nil || targetNode->right == t->nil) {
+        realDeleteNode = targetNode;
+    }
+    else {
+        realDeleteNode = findTreeSuccessor(t, targetNode);
+    }
+
+    if (realDeleteNode->left != t->nil) {
+        childNode = realDeleteNode->left;
+    }
+    else {
+        childNode = realDeleteNode->right;
+    }
+    childNode->parent = realDeleteNode->parent;
+
+    if (realDeleteNode->parent == t->nil) {
+        t->root = childNode;
+    }
+    else if (realDeleteNode == realDeleteNode->parent->left) {
+        realDeleteNode->parent->left = childNode;
+    }
+    else {
+        realDeleteNode->parent->right = childNode;
+    }
+
+    if (realDeleteNode != targetNode) {
+        targetNode->key = realDeleteNode->key;
+    }
+
+    if (realDeleteNode->color == RBTREE_BLACK) {
+        // rbtree_delete_fixup(t, childNode);
+    }
+
+    return SUCCESS;
 }
 
 int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n) {
@@ -303,4 +338,31 @@ void right_rotate(rbtree* t, node_t* targetNode) {
     toRootNode->right = targetNode;
 
     targetNode->parent = toRootNode;
+}
+
+int rbtree_delete_node(rbtree* t, const key_t key) {
+    node_t* searchNode = rbtree_find(t, key);
+
+    if (searchNode == NULL) {
+        return FAIL;
+    }
+    else {
+        rbtree_erase(t, searchNode);
+        return SUCCESS;
+    }
+}
+
+node_t* findTreeSuccessor(rbtree* t, node_t* targetNode) {
+    if (targetNode->right != t->nil) {
+        return find_min_in_subtree(t->nil, targetNode->right);
+    }
+
+    node_t* parentNode = targetNode->parent;
+
+    while (parentNode != t->nil && targetNode == parentNode->right) {
+        targetNode = parentNode;
+        parentNode = parentNode->parent;
+    }
+
+    return parentNode;
 }

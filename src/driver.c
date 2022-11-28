@@ -21,6 +21,8 @@ int main(int argc, char* argv[]) {
 
     testFindMaxMinValueInRbTree(p_rbt);
 
+    testDeleteValueInRbTree(p_rbt);
+
     printf("\n");
     printf("Test Complete\n");
 }
@@ -99,6 +101,16 @@ void testInsertValueToRbTree(rbtree* t) {
     rbtree_insert(t, 25);
     rbtree_insert(t, MAX_VALUE);
     rbtree_insert(t, MIN_VALUE);
+
+    print_tree_inorder(t);
+    printf("OK\n");
+}
+
+void testDeleteValueInRbTree(rbtree* t) {
+    printf("\n");
+    printf("RBtree_delete Test\n");
+    rbtree_delete_node(t, 10);
+    rbtree_delete_node(t, 80);
 
     print_tree_inorder(t);
     printf("OK\n");
