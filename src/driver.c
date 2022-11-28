@@ -31,8 +31,7 @@ void findTest(rbtree* t, int testValue) {
     node_t* p_searchNode = rbtree_find(t, testValue);
     if (p_searchNode != NULL) {
         printf("Find expected : %d , actual : %d \n", testValue, p_searchNode->key);
-    }
-    else {
+    } else {
         printf("Not Found : %d \n", testValue);
     }
 }
