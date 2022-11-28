@@ -20,7 +20,7 @@ node_t* rbtree_insert(rbtree* t, const key_t key) {
     node_t* searchNodeParent = NULL;
     node_t* searchNode = t->root;
 
-    while (searchNode != NULL) {
+    while (searchNode != NULL && searchNode->key != NULL) {
         searchNodeParent = searchNode;
 
         if (key < searchNode->key) {
@@ -46,8 +46,7 @@ node_t* rbtree_insert(rbtree* t, const key_t key) {
         }
     }
 
-    // TODO : Make FIXUP Function
-    // tree_insert_fixup(tree, ptr)
+    tree_insert_fixup(t, p_newInsertNode);
 
     return t->root;
 }
@@ -112,11 +111,107 @@ void print_node_inorder(node_t* curNode) {
 }
 
 void print_tree_inorder(rbtree* t) {
+    printf("RootValue : %d \n", t->root->key);
     print_node_inorder(t->root);
 }
 
-void tree_insert_fixup(rbtree* t, node_t* p) {
+void tree_insert_fixup(rbtree* t, node_t* targetNode) {
+    while (targetNode->parent != NULL && targetNode->parent->color == RBTREE_RED) {
+        if (targetNode->parent->parent->left == targetNode->parent) {
+            targetNode = fixupLeftCase(t, targetNode);
+        }
+        else {
+            targetNode = fixupRightCase(t, targetNode);
+        }
+    }
 
+    t->root->color = RBTREE_BLACK;
+}
+
+node_t* fixupLeftCase(rbtree* t, node_t* targetNode) {
+    node_t* uncle = targetNode->parent->parent->right;
+
+    if (uncle->color == RBTREE_RED) {
+        targetNode = fixupLeftCase_1(targetNode, uncle);
+    }
+    else {
+        if (targetNode->parent->right == targetNode) {
+            targetNode = fixupLeftCase_2(t, targetNode);
+        }
+
+        targetNode = fixupLeftCase_3(t, targetNode);
+    }
+
+    return targetNode;
+}
+
+node_t* fixupLeftCase_1(node_t* targetNode, node_t* uncle) {
+    targetNode->parent->color = RBTREE_BLACK;
+    uncle->color = RBTREE_BLACK;
+
+    targetNode->parent->parent->color = RBTREE_RED;
+    targetNode = targetNode->parent->parent;
+
+    return targetNode;
+}
+
+node_t* fixupLeftCase_2(rbtree* t, node_t* targetNode) {
+    targetNode = targetNode->parent;
+    left_rotate(t, targetNode);
+
+    return targetNode;
+}
+
+node_t* fixupLeftCase_3(rbtree* t, node_t* targetNode) {
+    targetNode->parent->color = RBTREE_BLACK;
+    targetNode->parent->parent->color = RBTREE_RED;
+
+    right_rotate(t, targetNode->parent->parent);
+
+    return targetNode;
+}
+
+node_t* fixupRightCase(rbtree* t, node_t* targetNode) {
+    node_t* uncle = targetNode->parent->parent->left;
+
+    if (uncle->color == RBTREE_RED) {
+        targetNode = fixupRightCase_1(targetNode, uncle);
+    }
+    else {
+        if (targetNode->parent->left == targetNode) {
+            targetNode = fixupRightCase_2(t, targetNode);
+        }
+
+        targetNode = fixupRightCase_3(t, targetNode);
+    }
+
+    return targetNode;
+}
+
+node_t* fixupRightCase_1(node_t* targetNode, node_t* uncle) {
+    targetNode->parent->color = RBTREE_BLACK;
+    uncle->color = RBTREE_BLACK;
+
+    targetNode->parent->parent->color = RBTREE_RED;
+    targetNode = targetNode->parent->parent;
+
+    return targetNode;
+}
+
+node_t* fixupRightCase_2(rbtree* t, node_t* targetNode) {
+    targetNode = targetNode->parent;
+    right_rotate(t, targetNode);
+
+    return targetNode;
+}
+
+node_t* fixupRightCase_3(rbtree* t, node_t* targetNode) {
+    targetNode->parent->color = RBTREE_BLACK;
+    targetNode->parent->parent->color = RBTREE_RED;
+
+    left_rotate(t, targetNode->parent->parent);
+
+    return targetNode;
 }
 
 void left_rotate(rbtree* t, node_t* targetNode) {
