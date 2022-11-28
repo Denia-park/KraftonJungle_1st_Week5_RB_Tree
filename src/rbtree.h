@@ -35,6 +35,9 @@ void print_tree_inorder(rbtree* t);
 node_t* makeNilNode(node_t* p_parent);
 node_t* makeNewNode(const key_t key);
 
+void left_rotate(rbtree* t, node_t* targetNode);
+void right_rotate(rbtree* t, node_t* targetNode);
+
 #define RED 0
 #define BLACK 1
 

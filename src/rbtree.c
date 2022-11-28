@@ -114,3 +114,49 @@ void print_node_inorder(node_t* curNode) {
 void print_tree_inorder(rbtree* t) {
     print_node_inorder(t->root);
 }
+
+void tree_insert_fixup(rbtree* t, node_t* p) {
+
+}
+
+void left_rotate(rbtree* t, node_t* targetNode) {
+    node_t* toRootNode = targetNode->right;
+    targetNode->right = toRootNode->left;
+    toRootNode->left->parent = targetNode;
+    toRootNode->parent = targetNode->parent;
+
+    if (targetNode->parent == NULL) {
+        t->root = toRootNode;
+    }
+    else if (targetNode->parent->left == targetNode) {
+        targetNode->parent->left = toRootNode;
+    }
+    else {
+        targetNode->parent->right = toRootNode;
+    }
+
+    toRootNode->left = targetNode;
+
+    targetNode->parent = toRootNode;
+}
+
+void right_rotate(rbtree* t, node_t* targetNode) {
+    node_t* toRootNode = targetNode->left;
+    targetNode->left = toRootNode->right;
+    toRootNode->right->parent = targetNode;
+    toRootNode->parent = targetNode->parent;
+
+    if (targetNode->parent == NULL) {
+        t->root = toRootNode;
+    }
+    else if (targetNode->parent->right == targetNode) {
+        targetNode->parent->right = toRootNode;
+    }
+    else {
+        targetNode->parent->left = toRootNode;
+    }
+
+    toRootNode->right = targetNode;
+
+    targetNode->parent = toRootNode;
+}
