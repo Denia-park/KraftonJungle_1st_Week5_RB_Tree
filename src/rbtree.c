@@ -193,32 +193,32 @@ void print_tree_inorder(rbtree* t) {
 void tree_insert_fixup(rbtree* t, node_t* targetNode) {
     while (targetNode->parent->color == RBTREE_RED) {
         if (targetNode->parent->parent->left == targetNode->parent) {
-            targetNode = fixupLeftCase(t, targetNode);
+            targetNode = insert_fixupLeftCase(t, targetNode);
         } else {
-            targetNode = fixupRightCase(t, targetNode);
+            targetNode = insert_fixupRightCase(t, targetNode);
         }
     }
 
     t->root->color = RBTREE_BLACK;
 }
 
-node_t* fixupLeftCase(rbtree* t, node_t* targetNode) {
+node_t* insert_fixupLeftCase(rbtree* t, node_t* targetNode) {
     node_t* uncle = targetNode->parent->parent->right;
 
     if (uncle->color == RBTREE_RED) {
-        targetNode = fixupLeftCase_1(targetNode, uncle);
+        targetNode = insert_fixupLeftCase_1(targetNode, uncle);
     } else {
         if (targetNode->parent->right == targetNode) {
-            targetNode = fixupLeftCase_2(t, targetNode);
+            targetNode = insert_fixupLeftCase_2(t, targetNode);
         }
 
-        targetNode = fixupLeftCase_3(t, targetNode);
+        targetNode = insert_fixupLeftCase_3(t, targetNode);
     }
 
     return targetNode;
 }
 
-node_t* fixupLeftCase_1(node_t* targetNode, node_t* uncle) {
+node_t* insert_fixupLeftCase_1(node_t* targetNode, node_t* uncle) {
     targetNode->parent->color = RBTREE_BLACK;
     uncle->color = RBTREE_BLACK;
 
@@ -228,14 +228,14 @@ node_t* fixupLeftCase_1(node_t* targetNode, node_t* uncle) {
     return targetNode;
 }
 
-node_t* fixupLeftCase_2(rbtree* t, node_t* targetNode) {
+node_t* insert_fixupLeftCase_2(rbtree* t, node_t* targetNode) {
     targetNode = targetNode->parent;
     left_rotate(t, targetNode);
 
     return targetNode;
 }
 
-node_t* fixupLeftCase_3(rbtree* t, node_t* targetNode) {
+node_t* insert_fixupLeftCase_3(rbtree* t, node_t* targetNode) {
     targetNode->parent->color = RBTREE_BLACK;
     targetNode->parent->parent->color = RBTREE_RED;
 
@@ -244,23 +244,23 @@ node_t* fixupLeftCase_3(rbtree* t, node_t* targetNode) {
     return targetNode;
 }
 
-node_t* fixupRightCase(rbtree* t, node_t* targetNode) {
+node_t* insert_fixupRightCase(rbtree* t, node_t* targetNode) {
     node_t* uncle = targetNode->parent->parent->left;
 
     if (uncle->color == RBTREE_RED) {
-        targetNode = fixupRightCase_1(targetNode, uncle);
+        targetNode = insert_fixupRightCase_1(targetNode, uncle);
     } else {
         if (targetNode->parent->left == targetNode) {
-            targetNode = fixupRightCase_2(t, targetNode);
+            targetNode = insert_fixupRightCase_2(t, targetNode);
         }
 
-        targetNode = fixupRightCase_3(t, targetNode);
+        targetNode = insert_fixupRightCase_3(t, targetNode);
     }
 
     return targetNode;
 }
 
-node_t* fixupRightCase_1(node_t* targetNode, node_t* uncle) {
+node_t* insert_fixupRightCase_1(node_t* targetNode, node_t* uncle) {
     targetNode->parent->color = RBTREE_BLACK;
     uncle->color = RBTREE_BLACK;
 
@@ -270,14 +270,14 @@ node_t* fixupRightCase_1(node_t* targetNode, node_t* uncle) {
     return targetNode;
 }
 
-node_t* fixupRightCase_2(rbtree* t, node_t* targetNode) {
+node_t* insert_fixupRightCase_2(rbtree* t, node_t* targetNode) {
     targetNode = targetNode->parent;
     right_rotate(t, targetNode);
 
     return targetNode;
 }
 
-node_t* fixupRightCase_3(rbtree* t, node_t* targetNode) {
+node_t* insert_fixupRightCase_3(rbtree* t, node_t* targetNode) {
     targetNode->parent->color = RBTREE_BLACK;
     targetNode->parent->parent->color = RBTREE_RED;
 

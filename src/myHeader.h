@@ -9,16 +9,16 @@ void print_tree_inorder(rbtree* t);
 
 void tree_insert_fixup(rbtree* t, node_t* p);
 
-node_t* fixupLeftCase(rbtree* t, node_t* z);
-node_t* fixupRightCase(rbtree* t, node_t* z);
+node_t* insert_fixupLeftCase(rbtree* t, node_t* z);
+node_t* insert_fixupRightCase(rbtree* t, node_t* z);
 
-node_t* fixupLeftCase_1(node_t* targetNode, node_t* uncle);
-node_t* fixupLeftCase_2(rbtree* t, node_t* targetNode);
-node_t* fixupLeftCase_3(rbtree* t, node_t* targetNode);
+node_t* insert_fixupLeftCase_1(node_t* targetNode, node_t* uncle);
+node_t* insert_fixupLeftCase_2(rbtree* t, node_t* targetNode);
+node_t* insert_fixupLeftCase_3(rbtree* t, node_t* targetNode);
 
-node_t* fixupRightCase_1(node_t* targetNode, node_t* uncle);
-node_t* fixupRightCase_2(rbtree* t, node_t* targetNode);
-node_t* fixupRightCase_3(rbtree* t, node_t* targetNode);
+node_t* insert_fixupRightCase_1(node_t* targetNode, node_t* uncle);
+node_t* insert_fixupRightCase_2(rbtree* t, node_t* targetNode);
+node_t* insert_fixupRightCase_3(rbtree* t, node_t* targetNode);
 
 node_t* makeNilNode();
 node_t* makeNewNode(rbtree* t, const key_t key);
