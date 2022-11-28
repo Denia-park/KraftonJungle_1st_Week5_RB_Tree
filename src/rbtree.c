@@ -454,6 +454,20 @@ int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n) {
 }
 
 void delete_rbtree(rbtree* t) {
-    // TODO: reclaim the tree nodes's memory
+    freeMemoryByPostorder(t, t->root);
+
+    free(t->nil);
     free(t);
+    t = NULL;
+}
+
+void freeMemoryByPostorder(rbtree* t, node_t* curNode) {
+    if (curNode == t->nil) {
+        return;
+    }
+
+    freeMemoryByPostorder(t, curNode->left);
+    freeMemoryByPostorder(t, curNode->right);
+    free(curNode);
+    curNode = NULL;
 }

@@ -40,6 +40,8 @@ node_t* delete_fixupRightCase(rbtree* t, node_t* targetNode);
 
 int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n);
 
+void freeMemoryByPostorder(rbtree* t, node_t* curNode);
+
 rbtree* testMakeRbTree();
 void testMaxValueInEmptyRbTree(rbtree* t);
 void testMinValueInEmptyRbTree(rbtree* t);

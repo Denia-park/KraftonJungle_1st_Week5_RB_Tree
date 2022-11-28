@@ -27,6 +27,9 @@ int main(int argc, char* argv[]) {
     rbtree* p_rbt_arrTest = testMakeRbTree();
     testRbTreeToArr(p_rbt_arrTest);
 
+    rbtree* p_rbt_deleteTree = testMakeRbTree();
+    testDeleteRbTree(p_rbt_deleteTree);
+
     printf("\n");
     printf("Test Complete\n");
 }
@@ -195,6 +198,25 @@ void testRbTreeToArr(rbtree* t) {
     for (int i = 0; i < arrSize; i++) {
         printf("%d ", p_arr[i]);
     }
+
+    printf("\n");
+}
+
+void testDeleteRbTree(rbtree* t) {
+    printf("\n");
+    printf("DeleteRbTree Test\n");
+
+    rbtree_insert(t, 35);
+    rbtree_insert(t, 20);
+    rbtree_insert(t, 50);
+    rbtree_insert(t, 10);
+    rbtree_insert(t, 30);
+    rbtree_insert(t, 40);
+    rbtree_insert(t, 80);
+    rbtree_insert(t, 5);
+    print_tree_inorder(t);
+
+    delete_rbtree(t);
 
     printf("\n");
 }
