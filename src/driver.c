@@ -50,7 +50,6 @@ void findTest(rbtree* t, int testValue) {
         printf("Find expected : %d , actual : %d \n", testValue, p_searchNode->key);
     }
     else {
-        assert(p_searchNode == NULL);
         printf("Not Found : %d \n", testValue);
     }
 }

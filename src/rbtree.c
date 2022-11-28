@@ -55,7 +55,7 @@ node_t* rbtree_insert(rbtree* t, const key_t key) {
 node_t* rbtree_find(const rbtree* t, const key_t key) {
     node_t* searchNode = t->root;
 
-    while (searchNode != NULL && searchNode->key != key) {
+    while (searchNode != t->nil && searchNode->key != key) {
         if (key < searchNode->key) {
             searchNode = searchNode->left;
         }
@@ -64,7 +64,12 @@ node_t* rbtree_find(const rbtree* t, const key_t key) {
         }
     }
 
-    return searchNode;
+    if (searchNode == t->nil) {
+        return NULL;
+    }
+    else {
+        return searchNode;
+    }
 }
 
 node_t* rbtree_min(const rbtree* t) {
