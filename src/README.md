@@ -22,6 +22,4 @@
         -  tree_find(tree, key): key 값 검색
         -  tree_erase(tree, ptr): RB tree 내부의 ptr로 지정된 node를 삭제하고 메모리 반환
 -  tree_to_array(tree, array, n) : RB tree의 내용을 key 순서대로 주어진 array로 변환
----
-### 구현 필요
 -  delete_tree(tree): RB tree 구조체가 차지했던 메모리 반환
