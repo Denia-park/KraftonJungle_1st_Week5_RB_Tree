@@ -74,7 +74,12 @@ node_t* rbtree_find(const rbtree* t, const key_t key) {
 
 node_t* rbtree_min(const rbtree* t) {
     node_t* searchNode = t->root;
-    while (searchNode != NULL && searchNode->left->key != NULL) {
+
+    if (searchNode == t->nil) {
+        return t->nil;
+    }
+
+    while (searchNode->left != t->nil) {
         searchNode = searchNode->left;
     }
 
@@ -83,7 +88,12 @@ node_t* rbtree_min(const rbtree* t) {
 
 node_t* rbtree_max(const rbtree* t) {
     node_t* searchNode = t->root;
-    while (searchNode != NULL && searchNode->right->key != NULL) {
+
+    if (searchNode == t->nil) {
+        return t->nil;
+    }
+
+    while (searchNode->right != t->nil) {
         searchNode = searchNode->right;
     }
 
