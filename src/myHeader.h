@@ -29,9 +29,12 @@ void right_rotate(rbtree* t, node_t* targetNode);
 void findTest(rbtree* t, int testValue);
 void find_max_test(rbtree* t, int testValue);
 void find_min_test(rbtree* t, int testValue);
-int isNilNode(const node_t* node);
 
-int isNilNode(const node_t* node);
+int rbtree_delete_node(rbtree* t, const key_t key);
+node_t* findTreeSuccessor(rbtree* t, node_t* targetNode);
+node_t* find_min_in_subtree(const node_t* p_nil, node_t* subTreeRootNode);
+node_t* find_max_in_subtree(const node_t* p_nil, node_t* subTreeRootNode);
+
 
 rbtree* testMakeRbTree();
 void testMaxValueInEmptyRbTree(rbtree* t);
