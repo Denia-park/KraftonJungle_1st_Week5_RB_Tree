@@ -346,6 +346,9 @@ int rbtree_erase(rbtree* t, node_t* targetNode) {
         rbtree_delete_fixup(t, childNode);
     }
 
+    free(realDeleteNode);
+    realDeleteNode = NULL;
+
     return SUCCESS;
 }
 
