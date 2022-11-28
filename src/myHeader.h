@@ -4,7 +4,7 @@
 
 #include "rbtree.h"
 
-void print_node_inorder(node_t* curNode);
+void print_node_inorder(rbtree* t, node_t* curNode);
 void print_tree_inorder(rbtree* t);
 
 void tree_insert_fixup(rbtree* t, node_t* p);

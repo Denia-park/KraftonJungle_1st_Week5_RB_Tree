@@ -117,21 +117,19 @@ node_t* makeNewNode(rbtree* t, const key_t key) {
     return p_newNode;
 }
 
-void print_node_inorder(node_t* curNode) {
-    if (curNode == NULL) {
+void print_node_inorder(rbtree* t, node_t* curNode) {
+    if (curNode == t->nil) {
         return;
     }
 
-    print_node_inorder(curNode->left);
-    if (curNode->key != NULL) {
-        printf("%d %c // ", curNode->key, curNode->color == RED ? 'R' : 'B');
-    }
-    print_node_inorder(curNode->right);
+    print_node_inorder(t, curNode->left);
+    printf("%d %c // ", curNode->key, curNode->color == RED ? 'R' : 'B');
+    print_node_inorder(t, curNode->right);
 }
 
 void print_tree_inorder(rbtree* t) {
     printf("RootValue : %d \n", t->root->key);
-    print_node_inorder(t->root);
+    print_node_inorder(t, t->root);
     printf("\n");
 }
 
