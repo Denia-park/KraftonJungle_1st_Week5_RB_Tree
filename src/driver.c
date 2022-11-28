@@ -21,7 +21,8 @@ int main(int argc, char* argv[]) {
 
     testFindMaxMinValueInRbTree(p_rbt);
 
-    testDeleteValueInRbTree(p_rbt);
+    rbtree* p_rbt_delete = testMakeRbTree();
+    testDeleteValueInRbTree(p_rbt_delete);
 
     printf("\n");
     printf("Test Complete\n");
@@ -108,10 +109,48 @@ void testInsertValueToRbTree(rbtree* t) {
 void testDeleteValueInRbTree(rbtree* t) {
     printf("\n");
     printf("RBtree_delete Test\n");
-    rbtree_delete_node(t, 10);
-    rbtree_delete_node(t, 80);
+    rbtree_insert(t, 35);
+    rbtree_insert(t, 20);
+    rbtree_insert(t, 50);
+    rbtree_insert(t, 10);
+    rbtree_insert(t, 30);
+    rbtree_insert(t, 40);
+    rbtree_insert(t, 80);
+    rbtree_insert(t, 5);
+    rbtree_insert(t, 15);
+    rbtree_insert(t, 25);
+    rbtree_insert(t, 33);
+    rbtree_insert(t, 37);
+    rbtree_insert(t, 45);
+    rbtree_insert(t, 2);
+    rbtree_insert(t, 27);
 
+    rbtree_delete_node(t, 15);
     print_tree_inorder(t);
+
+    rbtree_delete_node(t, 33);
+    print_tree_inorder(t);
+
+    rbtree_delete_node(t, 37);
+    print_tree_inorder(t);
+
+    rbtree_delete_node(t, 35);
+    print_tree_inorder(t);
+
+    rbtree_delete_node(t, 40);
+    print_tree_inorder(t);
+
+    rbtree_delete_node(t, 50);
+    print_tree_inorder(t);
+
+    rbtree_delete_node(t, 80);
+    print_tree_inorder(t);
+
+    rbtree_delete_node(t, 27);
+    print_tree_inorder(t);
+
+    // rbtree_delete_node(t, 10);
+
     printf("OK\n");
 }
 

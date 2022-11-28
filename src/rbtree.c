@@ -12,11 +12,6 @@ rbtree* new_rbtree(void) {
     return p;
 }
 
-void delete_rbtree(rbtree* t) {
-    // TODO: reclaim the tree nodes's memory
-    free(t);
-}
-
 node_t* rbtree_insert(rbtree* t, const key_t key) {
     node_t* searchNodeParent = t->nil;
     node_t* searchNode = t->root;
@@ -111,47 +106,6 @@ node_t* find_max_in_subtree(const node_t* p_nil, node_t* subTreeRootNode) {
     return subTreeRootNode;
 }
 
-int rbtree_erase(rbtree* t, node_t* targetNode) {
-    node_t* realDeleteNode = NULL;
-    node_t* childNode = NULL;
-
-    if (targetNode->left == t->nil || targetNode->right == t->nil) {
-        realDeleteNode = targetNode;
-    } else {
-        realDeleteNode = findTreeSuccessor(t, targetNode);
-    }
-
-    if (realDeleteNode->left != t->nil) {
-        childNode = realDeleteNode->left;
-    } else {
-        childNode = realDeleteNode->right;
-    }
-    childNode->parent = realDeleteNode->parent;
-
-    if (realDeleteNode->parent == t->nil) {
-        t->root = childNode;
-    } else if (realDeleteNode == realDeleteNode->parent->left) {
-        realDeleteNode->parent->left = childNode;
-    } else {
-        realDeleteNode->parent->right = childNode;
-    }
-
-    if (realDeleteNode != targetNode) {
-        targetNode->key = realDeleteNode->key;
-    }
-
-    if (realDeleteNode->color == RBTREE_BLACK) {
-        // rbtree_delete_fixup(t, childNode);
-    }
-
-    return SUCCESS;
-}
-
-int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n) {
-    // TODO: implement to_array
-    return 0;
-}
-
 node_t* makeNilNode() {
     node_t* p_newNilNode = (node_t*) calloc(1, sizeof(node_t));
     p_newNilNode->key = NULL;
@@ -169,7 +123,7 @@ node_t* makeNewNode(rbtree* t, const key_t key) {
     p_newNode->color = RBTREE_RED;
     p_newNode->left = t->nil;
     p_newNode->right = t->nil;
-    p_newNode->parent = NULL;
+    p_newNode->parent = t->nil;
 
     return p_newNode;
 }
@@ -289,7 +243,9 @@ node_t* insert_fixupRightCase_3(rbtree* t, node_t* targetNode) {
 void left_rotate(rbtree* t, node_t* targetNode) {
     node_t* toRootNode = targetNode->right;
     targetNode->right = toRootNode->left;
-    toRootNode->left->parent = targetNode;
+    if (toRootNode->left != t->nil) {
+        toRootNode->left->parent = targetNode;
+    }
     toRootNode->parent = targetNode->parent;
 
     if (targetNode->parent == t->nil) {
@@ -308,7 +264,9 @@ void left_rotate(rbtree* t, node_t* targetNode) {
 void right_rotate(rbtree* t, node_t* targetNode) {
     node_t* toRootNode = targetNode->left;
     targetNode->left = toRootNode->right;
-    toRootNode->right->parent = targetNode;
+    if (toRootNode->right != t->nil) {
+        toRootNode->right->parent = targetNode;
+    }
     toRootNode->parent = targetNode->parent;
 
     if (targetNode->parent == t->nil) {
@@ -330,6 +288,8 @@ int rbtree_delete_node(rbtree* t, const key_t key) {
     if (searchNode == NULL) {
         return FAIL;
     } else {
+        printf("find delete node : %d \n", key);
+
         rbtree_erase(t, searchNode);
         return SUCCESS;
     }
@@ -348,4 +308,187 @@ node_t* findTreeSuccessor(rbtree* t, node_t* targetNode) {
     }
 
     return parentNode;
+}
+
+
+int rbtree_erase(rbtree* t, node_t* targetNode) {
+    node_t* realDeleteNode = t->nil;
+    node_t* childNode = t->nil;
+
+    if (targetNode->left == t->nil || targetNode->right == t->nil) {
+        realDeleteNode = targetNode;
+    } else {
+        realDeleteNode = findTreeSuccessor(t, targetNode);
+    }
+
+    if (realDeleteNode->left != t->nil) {
+        childNode = realDeleteNode->left;
+    } else {
+        childNode = realDeleteNode->right;
+    }
+    childNode->parent = realDeleteNode->parent;
+
+    if (realDeleteNode->parent == t->nil) {
+        t->root = childNode;
+    } else if (realDeleteNode == realDeleteNode->parent->left) {
+        realDeleteNode->parent->left = childNode;
+    } else {
+        realDeleteNode->parent->right = childNode;
+    }
+
+    if (realDeleteNode != targetNode) {
+        targetNode->key = realDeleteNode->key;
+    }
+
+    if (realDeleteNode->color == RBTREE_BLACK) {
+        rbtree_delete_fixup(t, childNode);
+    }
+
+    return SUCCESS;
+}
+
+void rbtree_delete_fixup(rbtree* t, node_t* x) {
+    node_t* ptr_save = NULL;
+
+    while (x != t->root && x->color == RBTREE_BLACK) {
+        if (x == x->parent->left) {
+            // targetNode = delete_fixupLeftCase(t, targetNode);
+            node_t* w = x->parent->right;
+
+            if (w->color == RBTREE_RED) {
+                w->color = RBTREE_BLACK;
+                x->parent->color = RBTREE_RED;
+                if (x == t->nil) {
+                    ptr_save = x->parent;
+                }
+                left_rotate(t, x->parent);
+                w = x->parent->right;
+            }
+
+            if (w->left->color == RBTREE_BLACK && w->right->color == RBTREE_BLACK) {
+                w->color = RBTREE_RED;
+                x = x->parent;
+            } else {
+                if (w->right->color == RBTREE_BLACK) {
+                    w->left->color = RBTREE_BLACK;
+                    w->color = RBTREE_RED;
+                    right_rotate(t, w);
+                    w = x->parent->right;
+                }
+                w->color = x->parent->color;
+                x->parent->color = RBTREE_BLACK;
+                w->right->color = RBTREE_BLACK;
+                left_rotate(t, x->parent);
+                x = t->root;
+            }
+        } else {
+            // targetNode = delete_fixupRightCase(t, targetNode);
+            node_t* w = x->parent->left;
+
+            if (w->color == RBTREE_RED) {
+                w->color = RBTREE_BLACK;
+                x->parent->color = RBTREE_RED;
+                right_rotate(t, x->parent);
+                w = x->parent->left;
+            }
+
+            if (w->right->color == RBTREE_BLACK && w->left->color == RBTREE_BLACK) {
+                w->color = RBTREE_RED;
+                x = x->parent;
+            } else {
+                if (w->left->color == RBTREE_BLACK) {
+                    w->right->color = RBTREE_BLACK;
+                    w->color = RBTREE_RED;
+                    left_rotate(t, w);
+                    w = x->parent->left;
+                }
+                w->color = x->parent->color;
+                x->parent->color = RBTREE_BLACK;
+                w->left->color = RBTREE_BLACK;
+                right_rotate(t, x->parent);
+                x = t->root;
+            }
+        }
+    }
+
+    x->color = RBTREE_BLACK;
+}
+
+node_t* delete_fixupLeftCase(rbtree* t, node_t* targetNode) {
+    node_t* sibling = targetNode->parent->right;
+
+    if (sibling->color == RBTREE_RED) {
+        sibling->color = RBTREE_BLACK;
+        targetNode->parent->color = RBTREE_RED;
+        left_rotate(t, targetNode->parent);
+        sibling = targetNode->parent->right;
+    }
+
+    if (sibling->left->color == RBTREE_BLACK && sibling->right->color == RBTREE_BLACK) {
+        sibling->color = RBTREE_RED;
+        targetNode = targetNode->parent;
+    } else {
+        if (sibling->right->color == RBTREE_BLACK) {
+            sibling->left->color = RBTREE_BLACK;
+            sibling->color = RBTREE_RED;
+            right_rotate(t, sibling);
+            sibling = targetNode->parent->right;
+        }
+        sibling->color = targetNode->parent->color;
+        targetNode->parent->color = RBTREE_BLACK;
+        sibling->right->color = RBTREE_BLACK;
+        left_rotate(t, targetNode->parent);
+        targetNode = t->root;
+    }
+
+    return targetNode;
+}
+
+node_t* delete_fixupLeftCase_1(rbtree* t, node_t* targetNode, node_t* sibling) {
+
+}
+
+
+node_t* delete_fixupRightCase(rbtree* t, node_t* targetNode) {
+    node_t* sibling = targetNode->parent->left;
+
+    if (sibling->color == RBTREE_RED) {
+        sibling->color = RBTREE_BLACK;
+        targetNode->parent->color = RBTREE_RED;
+        right_rotate(t, targetNode->parent);
+        sibling = targetNode->parent->left;
+    }
+
+    if (sibling->right->color == RBTREE_BLACK && sibling->left->color == RBTREE_BLACK) {
+        sibling->color = RBTREE_RED;
+        targetNode = targetNode->parent;
+    } else {
+        if (sibling->left->color == RBTREE_BLACK) {
+            sibling->right->color = RBTREE_BLACK;
+            sibling->color = RBTREE_RED;
+            left_rotate(t, sibling);
+            sibling = targetNode->parent->left;
+        }
+        sibling->color = targetNode->parent->color;
+        targetNode->parent->color = RBTREE_BLACK;
+        sibling->left->color = RBTREE_BLACK;
+        right_rotate(t, targetNode->parent);
+        targetNode = t->root;
+    }
+
+    return targetNode;
+}
+
+node_t* delete_fixupRightCase_1(rbtree* t, node_t* targetNode, node_t* sibling) {
+
+}
+
+int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n) {
+    // TODO: implement to_array
+    return 0;
+}
+
+void delete_rbtree(rbtree* t) {
+    // TODO: reclaim the tree nodes's memory
+    free(t);
 }
