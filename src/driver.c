@@ -21,8 +21,8 @@ int main(int argc, char* argv[]) {
 
     testFindMaxMinValueInRbTree(p_rbt);
 
-    rbtree* p_rbt_delete = testMakeRbTree();
-    testDeleteValueInRbTree(p_rbt_delete);
+    rbtree* p_rbt_deleteValue = testMakeRbTree();
+    testDeleteValueInRbTree(p_rbt_deleteValue);
 
     rbtree* p_rbt_arrTest = testMakeRbTree();
     testRbTreeToArr(p_rbt_arrTest);
