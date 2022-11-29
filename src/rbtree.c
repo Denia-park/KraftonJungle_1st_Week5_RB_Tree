@@ -368,10 +368,7 @@ node_t* delete_fixupLeftCase(rbtree* t, node_t* targetNode) {
     node_t* sibling = targetNode->parent->right;
 
     if (sibling->color == RBTREE_RED) {
-        sibling->color = RBTREE_BLACK;
-        targetNode->parent->color = RBTREE_RED;
-        left_rotate(t, targetNode->parent);
-        sibling = targetNode->parent->right;
+        sibling = delete_fixupLeftCase_1(t, targetNode, sibling);
     }
 
     if (sibling->left->color == RBTREE_BLACK && sibling->right->color == RBTREE_BLACK) {
@@ -395,7 +392,12 @@ node_t* delete_fixupLeftCase(rbtree* t, node_t* targetNode) {
 }
 
 node_t* delete_fixupLeftCase_1(rbtree* t, node_t* targetNode, node_t* sibling) {
+    sibling->color = RBTREE_BLACK;
+    targetNode->parent->color = RBTREE_RED;
+    left_rotate(t, targetNode->parent);
+    sibling = targetNode->parent->right;
 
+    return sibling;
 }
 
 
