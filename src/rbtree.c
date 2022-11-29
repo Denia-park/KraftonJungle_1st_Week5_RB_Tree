@@ -377,11 +377,8 @@ node_t* delete_fixupLeftCase(rbtree* t, node_t* targetNode) {
         if (sibling->right->color == RBTREE_BLACK) {
             sibling = delete_fixupLeftCase_3(t, targetNode, sibling);
         }
-        sibling->color = targetNode->parent->color;
-        targetNode->parent->color = RBTREE_BLACK;
-        sibling->right->color = RBTREE_BLACK;
-        left_rotate(t, targetNode->parent);
-        targetNode = t->root;
+
+        targetNode = delete_fixupLeftCase_4(t, targetNode, sibling);
     }
 
     return targetNode;
@@ -412,6 +409,15 @@ node_t* delete_fixupLeftCase_3(rbtree* t, node_t* targetNode, node_t* sibling) {
     return sibling;
 }
 
+node_t* delete_fixupLeftCase_4(rbtree* t, node_t* targetNode, node_t* sibling) {
+    sibling->color = targetNode->parent->color;
+    targetNode->parent->color = RBTREE_BLACK;
+    sibling->right->color = RBTREE_BLACK;
+    left_rotate(t, targetNode->parent);
+    targetNode = t->root;
+
+    return targetNode;
+}
 
 node_t* delete_fixupRightCase(rbtree* t, node_t* targetNode) {
     node_t* sibling = targetNode->parent->left;
@@ -426,11 +432,8 @@ node_t* delete_fixupRightCase(rbtree* t, node_t* targetNode) {
         if (sibling->left->color == RBTREE_BLACK) {
             sibling = delete_fixupRightCase_3(t, targetNode, sibling);
         }
-        sibling->color = targetNode->parent->color;
-        targetNode->parent->color = RBTREE_BLACK;
-        sibling->left->color = RBTREE_BLACK;
-        right_rotate(t, targetNode->parent);
-        targetNode = t->root;
+
+        targetNode = delete_fixupRightCase_4(t, targetNode, sibling);
     }
 
     return targetNode;
@@ -459,6 +462,16 @@ node_t* delete_fixupRightCase_3(rbtree* t, node_t* targetNode, node_t* sibling) 
     sibling = targetNode->parent->left;
 
     return sibling;
+}
+
+node_t* delete_fixupRightCase_4(rbtree* t, node_t* targetNode, node_t* sibling) {
+    sibling->color = targetNode->parent->color;
+    targetNode->parent->color = RBTREE_BLACK;
+    sibling->left->color = RBTREE_BLACK;
+    right_rotate(t, targetNode->parent);
+    targetNode = t->root;
+
+    return targetNode;
 }
 
 void searchValueByInorder(const rbtree* t, const node_t* curNode, key_t* arr, const size_t n) {
