@@ -42,6 +42,8 @@ node_t* delete_fixupLeftCase_1(rbtree* t, node_t* targetNode, node_t* sibling);
 node_t* delete_fixupRightCase_1(rbtree* t, node_t* targetNode, node_t* sibling);
 node_t* delete_fixupLeftCase_2(node_t* targetNode, node_t* sibling);
 node_t* delete_fixupRightCase_2(node_t* targetNode, node_t* sibling);
+node_t* delete_fixupLeftCase_3(rbtree* t, node_t* targetNode, node_t* sibling);
+node_t* delete_fixupRightCase_3(rbtree* t, node_t* targetNode, node_t* sibling);
 
 
 int rbtree_to_array(const rbtree* t, key_t* arr, const size_t n);
