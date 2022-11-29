@@ -372,8 +372,7 @@ node_t* delete_fixupLeftCase(rbtree* t, node_t* targetNode) {
     }
 
     if (sibling->left->color == RBTREE_BLACK && sibling->right->color == RBTREE_BLACK) {
-        sibling->color = RBTREE_RED;
-        targetNode = targetNode->parent;
+        targetNode = delete_fixupLeftCase_2(targetNode, sibling);
     } else {
         if (sibling->right->color == RBTREE_BLACK) {
             sibling->left->color = RBTREE_BLACK;
@@ -400,6 +399,13 @@ node_t* delete_fixupLeftCase_1(rbtree* t, node_t* targetNode, node_t* sibling) {
     return sibling;
 }
 
+node_t* delete_fixupLeftCase_2(node_t* targetNode, node_t* sibling) {
+    sibling->color = RBTREE_RED;
+    targetNode = targetNode->parent;
+
+    return targetNode;
+}
+
 
 node_t* delete_fixupRightCase(rbtree* t, node_t* targetNode) {
     node_t* sibling = targetNode->parent->left;
@@ -409,8 +415,7 @@ node_t* delete_fixupRightCase(rbtree* t, node_t* targetNode) {
     }
 
     if (sibling->right->color == RBTREE_BLACK && sibling->left->color == RBTREE_BLACK) {
-        sibling->color = RBTREE_RED;
-        targetNode = targetNode->parent;
+        targetNode = delete_fixupRightCase_2(targetNode, sibling);
     } else {
         if (sibling->left->color == RBTREE_BLACK) {
             sibling->right->color = RBTREE_BLACK;
@@ -435,6 +440,13 @@ node_t* delete_fixupRightCase_1(rbtree* t, node_t* targetNode, node_t* sibling) 
     sibling = targetNode->parent->left;
 
     return sibling;
+}
+
+node_t* delete_fixupRightCase_2(node_t* targetNode, node_t* sibling) {
+    sibling->color = RBTREE_RED;
+    targetNode = targetNode->parent;
+
+    return targetNode;
 }
 
 void searchValueByInorder(const rbtree* t, const node_t* curNode, key_t* arr, const size_t n) {
